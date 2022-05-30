@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React App</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <div id="toBe">
+      <section id="landing">
+      <h1>Ticketmaster Searcher</h1>
+      <img src="" alt="first-image"> <br/>
+      <Label for="country">Country:</Label>
+      <select id="country">
+        <option value=""> Select</option>
+        <option value="a"> Country A</option>
+        <option value="b"> Country B</option>
+        <option value="c"> Country C</option>
+      </select>
+      <Label for="dateFrom">Date From:</Label>
+      <input type="date" id="dateFrom" />
+      <Label for="dateTo">Date To:</Label>
+      <input type="date" id="dateTo" />
+      <Label for="keywords">Keywords:</Label>
+      <input type="text" id="keywords"/>
+      <button>GO!</button>
+    </section>
+
+    <section id="searchResults">
+      <div id="sort-filter-bar">
+      <h4>Sort by:</h4>
+      <Label for="sort-title">Title:</Label>
+      <input type="radio" value="name" id="sort-title" name="sorting-options">
+      <Label for="sort-dates">Dates:</Label>
+      <input type="radio" value="date" id="sort-dates" name="sorting-options">
+      <Label for="sort-city">City</Label>
+      <input type="radio" value="city" id="sort-city" name="sorting-options">
+      <button>Filter</button>
+    </div>
+      <article>
+        <img src="" alt="search result img">
+        <h5> Event/Attraction Title</h5>
+        <h6> date from and date to</h6>
+      </article>
+      <article>
+        <img src="" alt="search result img">
+        <h5> Event/Attraction Title</h5>
+        <h6> date from and date to</h6>
+      </article>
+      <article>
+        <img src="" alt="search result img">
+        <h5> Event/Attraction Title</h5>
+        <h6> date from and date to</h6>
+      </article>
+      <article>
+        <img src="" alt="search result img">
+        <h5> Event/Attraction Title</h5>
+        <h6> date from and date to</h6>
+      </article>
+    </section>
+      </div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
