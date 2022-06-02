@@ -2,6 +2,7 @@ export type TicketmasterEventType = {
   name: string;
   id: string;
   images: ImagesType[];
+  url: string;
   dates: {
     start: {
       localDate: string;
@@ -10,6 +11,13 @@ export type TicketmasterEventType = {
     };
   };
   _embedded: {
+    attractions: {
+      url: string,
+      id: string,
+      name: string,
+      images: ImagesType[],
+      classifications: ClassificationType[]
+    }[];
     venues: {
       name: string;
       url: string;
@@ -22,8 +30,11 @@ export type TicketmasterEventType = {
       country: {
         name: string;
       };
+      images: ImagesType[];
+      postalCode: string
     }[];
   };
+  pleaseNote: string;
 };
 
 export type ImagesType = {
@@ -32,3 +43,16 @@ export type ImagesType = {
   width: number;
   height: number;
 };
+
+
+export type SearchObjectType = {
+  country: string, dateTo: string, 
+  dateFrom : string, keywords?: string,
+  clickSearch: boolean
+}
+
+type ClassificationType = {
+  segment: {id:string, name:string},
+  genre: {id:string, name:string},
+  subGenre: {id:string, name:string}
+}

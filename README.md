@@ -13,10 +13,7 @@ A react web page for learning purposes.
 
 #### Results section
 <li> Shows nothing on landing, displays clickable results on search</li>
-<li> has 3 sort options: name, start dates, {one more} </li>
-<li> filter: opens up in a floating div [wth how] </li>
-<li> state to control filter + sort options </li>
-<li> route for filter? </li>
+<li> has 3 sort options: name asc/desc, start dates asc/desc, {one more} </li>
 
 ### Further Details page:
 <li> Routed to when user clicks on one of the results.<br/> </li>
