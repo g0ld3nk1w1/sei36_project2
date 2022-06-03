@@ -1,61 +1,81 @@
 import countryCode from "../Data/CountryCode.json";
-import { addYears, subMonths } from "date-fns";
+import { addYears, endOfDay, formatISO, startOfDay, subMonths } from "date-fns";
 import { BaseSyntheticEvent, useState } from "react";
 import { SearchObjectType } from "../Data/Constants";
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { Alert, Box, Button, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from "@mui/material";
+
 
 export const SearchForm = (props: { handleSearch: Function, searchObject: SearchObjectType }) => {
   const [interimObj, setInterimObj] = useState(props.searchObject);
 
-  const minDate = subMonths(Date.now(), 3).toISOString().slice(0, 10);
-  const maxDate = addYears(Date.now(), 1).toISOString().slice(0, 10);
+  const minDate = startOfDay(subMonths(Date.now(), 3));
+  const maxDate = endOfDay(addYears(Date.now(), 1));
 
-  const handleInput = (event : BaseSyntheticEvent) => {
-    setInterimObj({ ...interimObj, [event.target.id]: event.target.value });
+  const handleInput = (id:string, value: string) => {
+    setInterimObj({ ...interimObj, [id]: value });
   };
+  const handleCountry = (event : SelectChangeEvent) => {
+    setInterimObj({ ...interimObj, ["country"]: event.target.value });
+  };
+
   const handleSubmit = (event: BaseSyntheticEvent) => {
     event.preventDefault();
-    if(interimObj.dateFrom > interimObj.dateTo){
-      window.alert("Date to should be after Date From!");
+    // console.log(Object.values(interimObj));
+    if(interimObj.dateFrom === '' || interimObj.dateTo === ''){
+      window.alert("Please enter dates!");
       return;
     }
     props.handleSearch(interimObj);
   };
 
+
   // console.log("interimObj", interimObj);
   return (
+    <Box sx={{display: 'flex', p:1, m:1 }}>
     <form onSubmit={handleSubmit}>
-      <fieldset>
-        <label htmlFor="country">Country:</label>
-        <select id="country" onChange={handleInput} required value={interimObj.country}>
-          <option> Select Country</option>
+      <FormControl sx={{minWidth: 120 ,pr:4}} required>
+        <InputLabel id="country-label">Country</InputLabel>
+        <Select labelId="country-label" onChange={handleCountry} label="Country" id="country" value={interimObj.country}>
           {countryCode.map((ele) => (
-            <option value={ele.code} key={ele.code}>
-              {ele.name}
-            </option>
+            <MenuItem value={ele.code} key={ele.code}>{ele.name}</MenuItem>
           ))}
-        </select>
-        <label htmlFor="dateFrom">Date From:</label>
-        <input
-          type="datetime-local"
-          id="dateFrom"
-          value={interimObj.dateFrom}
-          min={minDate}
-          max={maxDate} required
-          onChange={handleInput}
+        </Select>
+        </FormControl>
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <Box sx={{display: 'inline', pr:4}}>
+        <DatePicker
+          label="Start Date"
+          value={interimObj.dateFrom || null}
+          minDate={minDate}
+          maxDate={maxDate}
+          onChange = {(newValue) => handleInput("dateFrom",`${formatISO(newValue).split('+')[0]}Z`)}
+          renderInput={(params) => <TextField {...params} />}
         />
-        <label htmlFor="dateTo">Date To:</label>
-        <input
-          type="datetime-local"
-          id="dateTo"
-          value={interimObj.dateTo}
-          max={maxDate}
-          min={interimObj.dateFrom} required
-          onChange={handleInput}
+        </Box>
+        <Box sx={{display: 'inline', pr:4}}>
+        <DatePicker
+          label="End Date"
+          value={interimObj.dateTo || null}
+          minDate={new Date(interimObj.dateFrom)}
+          maxDate={maxDate}
+          onChange = {(newValue) => handleInput("dateTo",`${formatISO(newValue).split('+')[0]}Z`)}
+          disablePast
+          renderInput={(params) => <TextField {...params} />}
         />
-        <label htmlFor="keywords">Keywords:</label>
-        <input type="text" id="keywords" onChange={handleInput} value={interimObj.keywords} />
-        <button onClick={() => setInterimObj({...interimObj, clickSearch: true})}>GO!</button>
-      </fieldset>
-    </form>
+        </Box>
+        </LocalizationProvider>
+        <Box sx={{ display: 'inline-flex', pr:4}}>
+        <TextField label="Keywords" variant="outlined" id="keywords" onChange={(event) => handleInput("keywords", event?.target.value)} 
+        value={interimObj.keywords} />
+        </Box>
+        <Box sx={{display: 'inline-flex', alignSelf:"center"}}>
+        <Button type="submit" size="large"variant="contained" onClick={() => setInterimObj({...interimObj, clickSearch: true})}
+        >Search</Button>
+        </Box>
+      </form>
+    </Box>
   );
 };

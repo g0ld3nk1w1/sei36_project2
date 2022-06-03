@@ -1,10 +1,10 @@
 import { useState } from "react";
-import "./App.css";
 import { LandingTopContainer } from "./Components/LandingTopContainer";
 import { SearchResultsContainer } from "./Components/SearchResultsContainer";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Detail } from "./Components/Detail";
 import { SearchObjectType } from "./Data/Constants";
+import "./App.css"
 
 function App() {
   const [searchObj, setSearchObj] = useState({
@@ -23,10 +23,7 @@ function App() {
             path="/"
             element={
               <>
-                <LandingTopContainer
-                  handleSearch={setSearchObj}
-                  searchObject={searchObj}
-                />
+                <LandingTopContainer handleSearch={setSearchObj} searchObject={searchObj} />
                 <SearchResultsContainer searchObject={searchObj} />
               </>
             }

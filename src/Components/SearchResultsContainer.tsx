@@ -6,6 +6,7 @@
 import { Results } from "./Result";
 import { SearchObjectType, TicketmasterEventType} from "../Data/Constants";
 import { BaseSyntheticEvent, useEffect, useState } from "react";
+import { Alert, AlertTitle, Box, Divider, InputLabel, MenuItem, Select, SelectChangeEvent, Stack } from "@mui/material";
 
 
 // = mockSearchResult._embedded.events;
@@ -18,7 +19,7 @@ export const SearchResultsContainer = (props: {searchObject: SearchObjectType}) 
   const [resultArr, setResultArr] = useState<TicketmasterEventType[]>([]);
   const [ready, setReady] = useState(false);
 
-  const handleSort = (event: BaseSyntheticEvent) => {
+  const handleSort = (event: SelectChangeEvent) => {
     switch(event.target.value){
       case 'title-asc': 
       resultArr.sort((ele1, ele2) => ele1.name.localeCompare(ele2.name));
@@ -44,14 +45,14 @@ export const SearchResultsContainer = (props: {searchObject: SearchObjectType}) 
     } else {
       const fullURL = url.concat(
         props.searchObject.country === undefined ? "" : `&countryCode=${props.searchObject.country}`,
-        `&startDateTime=${props.searchObject.dateFrom}:00Z`,
-        `&endDateTime=${props.searchObject.dateTo}:00Z`,
+        `&startDateTime=${props.searchObject.dateFrom}`,
+        `&endDateTime=${props.searchObject.dateTo}`,
         props.searchObject.keywords === undefined
           ? ""
           : `&keyword=${props.searchObject.keywords.replace(" ", "%20")}`,
           `&sort=date,asc`
       );
-      console.log("fullURL", fullURL);
+      // console.log("fullURL", fullURL);
       fetch(fullURL)
         .then(response => response.json())
         .then(data => {data.page.totalPages === 0 ? setResultArr([]) : setResultArr(data._embedded.events);
@@ -60,26 +61,30 @@ export const SearchResultsContainer = (props: {searchObject: SearchObjectType}) 
     return () =>{setReady(false)}
   }, [props.searchObject]);
 
-  console.log(resultArr);
+  // console.log(resultArr);
   if(resultArr.length === 0 && props.searchObject.clickSearch && ready) return (
-    <>
-    <h3>No results found for</h3>
-    <h4>Country: {props.searchObject.country}</h4>
-    </>
+    <Box sx={{display:'flex', justifyContent: 'center'}}>
+    <Alert severity="info">
+    <AlertTitle>No results found!</AlertTitle>
+    </Alert>
+    </Box>
   );
   else if(ready) return (
     <section>
-      <label htmlFor="sort-options">Sort By:</label>
-        <select id="sort-options" onChange={handleSort} defaultValue={'date-asc'}>
-          <option value="title-asc"> Title Asc</option>
-          <option value="title-desc"> Title Desc</option>
-          <option value="date-asc" > Dates Asc</option>
-          <option value="date-desc"> Dates Desc</option>
-          </select>
-      <br />
+    <Box sx={{display:'flex', flexDirection:'row', flexWrap:'wrap', justifyContent:'center',
+    alignIems: 'stretch', alignContent: 'center'}}>
+      <Box sx={{display:'flex', alignSelf:'center'}}>
+        <Select labelId="sort-options" onChange={handleSort} defaultValue={'date-asc'}>
+          <MenuItem value="title-asc"> Title Asc</MenuItem>
+          <MenuItem value="title-desc"> Title Desc</MenuItem>
+          <MenuItem value="date-asc" > Dates Asc</MenuItem>
+          <MenuItem value="date-desc"> Dates Desc</MenuItem>
+          </Select>
+          </Box>
       {resultArr.map((ele) => (
         <Results item={ele} key={ele.id} />
       ))}
+      </Box>
     </section>
   );
   else return (<></>);

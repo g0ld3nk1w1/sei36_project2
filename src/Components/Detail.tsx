@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { TicketmasterEventType } from "../Data/Constants";
-// import data from "../SampleResponses/EventID:G5vZZ9Awiaxd-.json";
-
-//Refetch singular event ID.
 
 
 export const Detail = () => {
@@ -17,7 +14,6 @@ const [data, setData] = useState<TicketmasterEventType>({} as TicketmasterEventT
     fetch(url)
       .then(response => response.json())
       .then(data => setData(data));
-        // console.log("used Effect");
   },[]);
 
 
@@ -46,7 +42,7 @@ if(Object.keys(data).length === 0) return null;
               </a>
           ))}
         </details>
-}
+        }
         <details>
           <summary>Venue:</summary>
           <a href={data._embedded.venues[0].url}>
