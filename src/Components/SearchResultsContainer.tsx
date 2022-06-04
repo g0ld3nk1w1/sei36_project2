@@ -1,18 +1,10 @@
-//Basaed on search Object do a fetch
-// map the results here into separate results.tsx with links.
-// sorting can also be done heree
-//if no results show empty;
-
 import { Results } from "./Result";
 import { SearchObjectType, TicketmasterEventType} from "../Data/Constants";
-import { BaseSyntheticEvent, useEffect, useState } from "react";
-import { Alert, AlertTitle, Box, Divider, InputLabel, MenuItem, Select, SelectChangeEvent, Stack } from "@mui/material";
+import { useEffect, useState } from "react";
+import { Alert, AlertTitle, Box, MenuItem, Select, SelectChangeEvent } from "@mui/material";
 
 
-// = mockSearchResult._embedded.events;
 const url = `${import.meta.env.VITE_BASE_URL}events.json?apikey=${import.meta.env.VITE_API_KEY}`;
-
-
 
 export const SearchResultsContainer = (props: {searchObject: SearchObjectType}) => {
   // console.log("searchObject", props.searchObject);

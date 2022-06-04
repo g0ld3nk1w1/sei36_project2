@@ -1,8 +1,13 @@
+import { Accordion, AccordionActions, AccordionDetails, AccordionSummary, Box, Button, CssBaseline, Grid, IconButton, ImageList, ImageListItem, ImageListItemBar, ListSubheader, Popover, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { TicketmasterEventType } from "../Data/Constants";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import InfoIcon from '@mui/icons-material/Info';
 
 
+
+//Flexbox between Arist Line up and venue
 export const Detail = () => {
   const { eventID } = useParams();
   const nav = useNavigate();
@@ -25,38 +30,93 @@ const goToEventPage = () => {
 if(Object.keys(data).length === 0) return null;
   else return (
     <main>
-      <h1>{data.name}</h1>
+      <Typography variant="h3" component="h1" gutterBottom>{data.name}</Typography>
       <img
         src={data?.images.filter((ele) => ele.width === 640)[0].url}
         alt={data.name}
       />
-      <div id="artist-venue">
-        {data._embedded.attractions === undefined ? "" :
-        <details>
-          <summary>Artist Lineup:</summary>
-          {data._embedded.attractions.map(ele =>(
-              <a href= {ele.url} key={ele.id}>
-              <img src={ele.images.filter(img => img.width<=300)[0].url} alt={ele.name}/>
-              <h2>{ele.name}</h2>
-              <h3>{ele.classifications[0].segment.name} Genre: {ele.classifications[0].genre.name} - {ele.classifications[0].subGenre.name}</h3>
-              </a>
-          ))}
-        </details>
-        }
-        <details>
-          <summary>Venue:</summary>
-          <a href={data._embedded.venues[0].url}>
-          <h2>{data._embedded.venues[0].name}</h2>
-          {data._embedded.venues[0].images === undefined ? "" : <img src={data._embedded.venues[0].images.filter(ele => ele.ratio === "16_9")[0]?.url} />}
-          <h3>{data._embedded.venues[0].city.name}, {data._embedded.venues[0].state?.name}, {data._embedded.venues[0].country.name} <br/> Postal Code: {data._embedded.venues[0].postalCode}</h3>
-          </a>
-        </details>
-      </div>
-      <button onClick={goToEventPage}>Buy Now!</button>
-      <button onClick={()=> nav("/")}> Return To Results</button>
-      <footer>
-          {data.pleaseNote}
-      </footer>
+      <Grid container columnGap={3} justifyContent="center" >
+      <Grid item id="artist-venue">
+        {data._embedded.attractions === undefined ? (
+          ""
+        ) : (
+          <Accordion>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography>Artist Lineup</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <ImageList>
+                <ImageListItem key="Subheader" cols={3}>
+                  <ListSubheader component="div">
+                    Artists listed in no particular order
+                  </ListSubheader>
+                </ImageListItem>
+                {data._embedded.attractions.map((ele) => (
+                  <ImageListItem key={ele.name}>
+                    <img
+                      src={ele.images.filter((img) => img.width <= 300)[0].url}
+                      alt={ele.name}
+                    />
+                    <ImageListItemBar
+                      title={ele.name}
+                      subtitle={`Genre: ${ele.classifications[0].genre.name} - ${ele.classifications[0].subGenre.name}`}
+                      actionIcon={
+                        <IconButton
+                          sx={{ color: "rgba(255, 255, 255, 0.54)" }}
+                          aria-label={`info about ${ele.name}`}
+                        >
+                          <a href={ele.url} key={ele.id}>
+                            <InfoIcon />
+                          </a>
+                        </IconButton>
+                      }
+                    ></ImageListItemBar>
+                  </ImageListItem>
+                ))}
+              </ImageList>
+            </AccordionDetails>
+          </Accordion>
+        )}
+        </Grid>
+        <Grid item>
+        <Accordion>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography>Venue</Typography>
+            </AccordionSummary>
+            {data._embedded.venues[0].images === undefined ? (<>
+                        <Typography>{data._embedded.venues[0].name}</Typography>
+                        <IconButton><a href={data._embedded.venues[0].url}><InfoIcon /></a></IconButton></>
+            ) : (<>
+            <Typography>{data._embedded.venues[0].name}</Typography>
+              <img
+                src={
+                  data._embedded.venues[0].images.filter(
+                    (ele) => ele.ratio === "16_9"
+                  )[0]?.url
+                }
+              /><IconButton><a href={data._embedded.venues[0].url}><InfoIcon /></a></IconButton>
+              </>
+            )}
+            <Typography>
+              {data._embedded.venues[0].city.name},{" "}
+              {data._embedded.venues[0].state?.name},{" "}
+              {data._embedded.venues[0].country.name} <br /> Postal Code:{" "}
+              {data._embedded.venues[0].postalCode}
+            </Typography>
+        </Accordion>
+        </Grid>
+        <Grid item>
+          <Button variant="contained" onClick={goToEventPage}>
+            Buy Now!
+          </Button>
+        </Grid>
+        <Grid item>
+          <Button color="success" variant="contained" onClick={() => nav("/")}>
+            Return To Results
+          </Button>
+        </Grid>
+      </Grid>
+      <Typography component={'footer'} variant='caption'>{data.pleaseNote}</Typography>
     </main>
   );
 };

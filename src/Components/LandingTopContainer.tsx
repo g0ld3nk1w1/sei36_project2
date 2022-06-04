@@ -1,4 +1,4 @@
-import { Box } from "@mui/system";
+import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { SearchObjectType } from "../Data/Constants";
 import sampleSuggestResponse from "../SampleResponses/suggest.json";
@@ -34,7 +34,7 @@ export const LandingTopContainer = (props : {handleSearch : Function, searchObje
   return (
     <Box sx={{display:"flex", justifyContent:"center"}}>
     <section id="landingTopContainer" className="section">
-      <h1 className="title">Ticketmaster Explorer!</h1>
+      <Typography variant="h3" component="h1" gutterBottom>Ticketmaster Explorer!</Typography>
       <a href= {initImg["event-link"]}><img src={initImg.imgurl} alt={initImg.alt} /></a>
       <Box sx={{display:"flex", justifyContent:"center"}}>
     <SearchForm handleSearch={props.handleSearch} searchObject={props.searchObject}/>
