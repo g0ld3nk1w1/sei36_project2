@@ -66,7 +66,7 @@ export const SearchResultsContainer = (props: {searchObject: SearchObjectType}) 
     <Box sx={{display:'flex', flexDirection:'row', flexWrap:'wrap', justifyContent:'center',
     alignIems: 'stretch', alignContent: 'center'}}>
       <Box sx={{display:'flex', alignSelf:'center'}}>
-        <Select labelId="sort-options" onChange={handleSort} defaultValue={'date-asc'}>
+        <Select labelId="sort-options" onChange={handleSort} defaultValue={'date-asc'} sx={{backgroundColor: '#00E0C6'}}>
           <MenuItem value="title-asc"> Title Asc</MenuItem>
           <MenuItem value="title-desc"> Title Desc</MenuItem>
           <MenuItem value="date-asc" > Dates Asc</MenuItem>

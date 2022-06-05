@@ -34,10 +34,10 @@ export const SearchForm = (props: { handleSearch: Function, searchObject: Search
 
   // console.log("interimObj", interimObj);
   return (
-    <Box sx={{display: 'flex', p:1, m:1 }}>
+    <Box sx={{display: 'flex', p:1, m:1, backgroundColor:"#009393"}}>
     <form onSubmit={handleSubmit}>
       <FormControl sx={{minWidth: 120 ,pr:4}} required>
-        <InputLabel id="country-label">Country</InputLabel>
+        <InputLabel id="country-label" >Country</InputLabel>
         <Select labelId="country-label" onChange={handleCountry} label="Country" id="country" value={interimObj.country}>
           {countryCode.map((ele) => (
             <MenuItem value={ele.code} key={ele.code}>{ele.name}</MenuItem>
@@ -46,14 +46,14 @@ export const SearchForm = (props: { handleSearch: Function, searchObject: Search
         </FormControl>
         <LocalizationProvider dateAdapter={AdapterDateFns}>
         <Box sx={{display: 'inline', pr:4}}>
-        <DatePicker
+        <DatePicker 
           label="Start Date"
           value={interimObj.dateFrom || null}
           minDate={minDate}
           maxDate={maxDate}
           onChange = {(newValue) => handleInput("dateFrom",`${formatISO(newValue).split('+')[0]}Z`)}
           renderInput={(params) => <TextField {...params} />}
-        />
+           />
         </Box>
         <Box sx={{display: 'inline', pr:4}}>
         <DatePicker
