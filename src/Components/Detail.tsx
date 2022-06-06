@@ -60,7 +60,7 @@ if(Object.keys(data).length === 0) return null;
                           sx={{ color: "rgba(255, 255, 255, 0.54)" }}
                           aria-label={`info about ${ele.name}`}
                         >
-                          <Link href={ele.url} key={ele.id} color="inherit">
+                          <Link href={ele.url} key={ele.id} color="inherit" target="_blank"> 
                             <InfoIcon />
                           </Link>
                         </IconButton>
@@ -80,7 +80,7 @@ if(Object.keys(data).length === 0) return null;
             </AccordionSummary>
             {data._embedded.venues[0].images === undefined ? (<>
                         <Typography>{data._embedded.venues[0].name}</Typography>
-                        <IconButton><Link href={data._embedded.venues[0].url} color="inherit"><InfoIcon /></Link></IconButton></>
+                        <IconButton><Link href={data._embedded.venues[0].url} color="inherit" target="_blank"><InfoIcon /></Link></IconButton></>
             ) : (<>
             <Typography>{data._embedded.venues[0].name}</Typography>
               <img
@@ -89,7 +89,7 @@ if(Object.keys(data).length === 0) return null;
                     (ele) => ele.ratio === "16_9"
                   )[0].url
                 }
-              /><IconButton><Link href={data._embedded.venues[0].url} color="inherit"><InfoIcon /></Link></IconButton>
+              /><IconButton><Link href={data._embedded.venues[0].url} color="inherit" target="_blank"><InfoIcon /></Link></IconButton>
               </>
             )}
             <Typography>
