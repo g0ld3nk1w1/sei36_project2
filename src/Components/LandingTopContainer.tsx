@@ -20,13 +20,13 @@ export const LandingTopContainer = (props : {handleSearch : Function, searchObje
           alt: data._embedded.venues[0].name,
           "event-link": data._embedded.venues[0].url,
           name: data._embedded.venues[0].name,
-          show: true
+          show: false
         } as innerImge,
         {        imgurl: data._embedded.attractions[0].images.filter((ele: { height: number; })=> ele.height >=500 && ele.height < 640)[0].url,
           alt: data._embedded.attractions[0].name,
           "event-link": data._embedded.attractions[0].url,
           name: data._embedded.attractions[0].name,
-          show: false
+          show: true
         } as innerImge,
         {        imgurl: data._embedded.events[0].images.filter((ele: {height: number;})=> ele.height >=500 && ele.height < 640)[0].url,
           alt: data._embedded.events[0].name,
