@@ -95,7 +95,7 @@ export const LandingTopContainer = (props : {handleSearch : Function, searchObje
         {initImg.map( (ele,index) =>
         ele.show ? 
         <Card key={index} sx={{alignContent:"center"}}>
-          <Link underline="none" color="inherit" href={ele["event-link"]}>
+          <Link underline="none" color="inherit" href={ele["event-link"]} target="_blank">
           <CardMedia component="img" image={ele.imgurl} alt={ele.alt} sx={{height:500}}/>
           <CardContent id="landingSuggestContent">
           <Typography align="center">
