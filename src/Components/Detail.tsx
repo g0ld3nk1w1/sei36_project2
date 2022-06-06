@@ -1,4 +1,4 @@
-import { Accordion, AccordionActions, AccordionDetails, AccordionSummary, Box, Button, CssBaseline, Grid, IconButton, ImageList, ImageListItem, ImageListItemBar, Link, ListSubheader, Popover, Typography } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Button, Grid, IconButton, ImageList, ImageListItem, ImageListItemBar, Link, ListSubheader, Popover, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { TicketmasterEventType } from "../Data/Constants";

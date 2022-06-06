@@ -51,7 +51,7 @@ export const SearchForm = (props: { handleSearch: Function, searchObject: Search
           value={interimObj.dateFrom || null}
           minDate={minDate}
           maxDate={maxDate}
-          onChange = {(newValue) => handleInput("dateFrom",`${formatISO(newValue).split('+')[0]}Z`)}
+          onChange = {(newValue) => handleInput("dateFrom",`${formatISO(newValue || Date.now()).split('+')[0]}Z`)}
           renderInput={(params) => <TextField {...params} />}
            />
         </Box>
@@ -61,7 +61,7 @@ export const SearchForm = (props: { handleSearch: Function, searchObject: Search
           value={interimObj.dateTo || null}
           minDate={new Date(interimObj.dateFrom)}
           maxDate={maxDate}
-          onChange = {(newValue) => handleInput("dateTo",`${formatISO(newValue).split('+')[0]}Z`)}
+          onChange = {(newValue) => handleInput("dateTo",`${formatISO(newValue|| Date.now()).split('+')[0]}Z`)}
           disablePast
           renderInput={(params) => <TextField {...params} />}
         />
