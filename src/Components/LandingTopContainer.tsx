@@ -13,10 +13,10 @@ const url = `${import.meta.env.VITE_BASE_URL}suggest.json?size=1&apikey=${API_KE
 export const LandingTopContainer = (props : {handleSearch : Function, searchObject: SearchObjectType}) => {
   const [initImg, setInitImg] = useState<innerImge[]>([]);
   const initialSuggest = () => {
-      fetch(url).then( response => response.json())
+      fetch(url, {mode: 'cors'}).then( response => response.json())
       .then(data =>     setInitImg([
         {
-          imgurl: data._embedded.venues[0].images[0].url,
+          imgurl: getImageUrl(data._embedded.venues[0]),
           alt: data._embedded.venues[0].name,
           "event-link": data._embedded.venues[0].url,
           name: data._embedded.venues[0].name,
@@ -61,7 +61,7 @@ export const LandingTopContainer = (props : {handleSearch : Function, searchObje
 
   const caroArrow = (n: number) => {
     const currShow = initImg.findIndex(ele => ele.show);
-    const newShow = (currShow + n)%3;
+    const newShow = (currShow + n)%initImg.length;
 
     let newInit = [];
     if(currShow + n < 0){
@@ -80,9 +80,15 @@ export const LandingTopContainer = (props : {handleSearch : Function, searchObje
     setInitImg(newInit);
   }
 
+  const getImageUrl = (venue : venue) => {
+      if(typeof venue.images === "undefined")
+        return "\\images\\default-image.jpg";
+      else return venue.images[0].url;
+  }
+
   useEffect(() => {
     initialSuggest();
-  }, []);
+  }, [url]);
 
   // console.log(initImg);
   // setTimeout(() => caroArrow(1), 5000);
@@ -95,7 +101,7 @@ export const LandingTopContainer = (props : {handleSearch : Function, searchObje
         {initImg.map( (ele,index) =>
         ele.show ? 
         <Card key={index} sx={{alignContent:"center"}}>
-          <Link underline="none" color="inherit" href={ele["event-link"]} target="_blank">
+          <Link underline="none" color="inherit" href={ele["event-link"]}>
           <CardMedia component="img" image={ele.imgurl} alt={ele.alt} sx={{height:500}}/>
           <CardContent id="landingSuggestContent">
           <Typography align="center">
@@ -117,4 +123,16 @@ export const LandingTopContainer = (props : {handleSearch : Function, searchObje
 
 interface innerImge {
   imgurl: string, alt: string, "event-link": string, name: string, show: boolean
+}
+
+interface venue {
+  images?: stockImage[]
+}
+
+interface stockImage{
+  ratio: string,
+  url: string,
+  width: number,
+  height: number,
+  fallback: boolean
 }
