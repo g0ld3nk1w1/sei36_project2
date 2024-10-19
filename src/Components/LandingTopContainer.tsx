@@ -8,7 +8,7 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 const API_KEY = import.meta.env.VITE_API_KEY;
 const url = `${import.meta.env.VITE_BASE_URL}suggest.json?size=1&apikey=${API_KEY}`;
-
+const defaultImage = "\\images\\default-image.jpg";
 
 export const LandingTopContainer = (props : {handleSearch : Function, searchObject: SearchObjectType}) => {
   const [initImg, setInitImg] = useState<innerImge[]>([]);
@@ -16,7 +16,7 @@ export const LandingTopContainer = (props : {handleSearch : Function, searchObje
       fetch(url, {mode: 'cors'}).then( response => response.json())
       .then(data =>     setInitImg([
         {
-          imgurl: getImageUrl(data._embedded.venues[0]),
+          imgurl: (typeof data._embedded.venues[0].images === 'undefined') ? defaultImage :  data._embedded.venues[0].images[0].url,
           alt: data._embedded.venues[0].name,
           "event-link": data._embedded.venues[0].url,
           name: data._embedded.venues[0].name,
@@ -78,12 +78,6 @@ export const LandingTopContainer = (props : {handleSearch : Function, searchObje
       });
     }
     setInitImg(newInit);
-  }
-
-  const getImageUrl = (venue : venue) => {
-      if(typeof venue.images === "undefined")
-        return "\\images\\default-image.jpg";
-      else return venue.images[0].url;
   }
 
   useEffect(() => {
